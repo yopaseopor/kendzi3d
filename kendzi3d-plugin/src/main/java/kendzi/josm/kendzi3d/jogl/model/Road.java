@@ -267,6 +267,11 @@ public class Road extends AbstractWayModel {
         if (surface == null) {
             surface = "unknown";
         }
+		
+		        String surface = way.get("lanes");
+        if (lanes == null) {
+            lanes = "unknown";
+        }
 
         String file = null;
 
@@ -276,12 +281,19 @@ public class Road extends AbstractWayModel {
         String surfaceTexture = metadataCacheService.getPropertites("roads.surface_" + surface + ".texture.file", null);
         Double surfaceTextureLenght = metadataCacheService.getPropertitesDouble("roads.surface_" + surface + ".texture.lenght",
                 1d);
+				
+		String lanesTexture = metadataCacheService.getPropertites("roads.lanes_" + lanes + ".texture.file", null);
+        Double lanesTextureLenght = metadataCacheService.getPropertitesDouble("roads.lanes_" + lanes + ".texture.lenght",
+                1d);
 
         double lenght = 1;
         // finds known texture
         if (!"unknown".equals(surface) && surfaceTexture != null) {
             file = surfaceTexture;
             lenght = surfaceTextureLenght;
+        } else if (!"unknown".equals(lanes) && lanesTexture != null) {
+            file = lanesTexture;
+            lenght = lanesTextureLenght;
         } else if (!"unknown".equals(highway) && highwayTexture != null) {
             file = highwayTexture;
             lenght = highwayTextureLenght;
@@ -295,6 +307,9 @@ public class Road extends AbstractWayModel {
             } else if (highwayTexture != null) {
                 file = highwayTexture;
                 lenght = highwayTextureLenght;
+             } else if (lanesTexture != null) {
+                file = lanesTexture;
+                lenght = lanesTextureLenght;
             }
         }
 
